@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 
+import random
+
 from settings import settings
 from bot_logic import *
 
@@ -9,7 +11,7 @@ intents = discord.Intents.default()
 # Включаем привелегию на чтение сообщений
 intents.message_content = True
 # Создаем бота в переменной client и передаем все привелегии
-bot = commands.Bot(command_prefix='$', intents=intents)
+bot = commands.Bot(command_prefix=settings["prefix"], intents=intents)
 
 @bot.event
 async def on_ready():
@@ -28,5 +30,13 @@ async def gen_pass(ctx, count_chars = 10):
     new_pass = gen_pass(count_chars)
     await ctx.send(new_pass)
 
+@bot.command()
+async def mem(ctx):
+    mems = ["mem1.jpg", "mem2.jpg", "mem3.jpg"]
+    with open('images/' + random.choice(mems), 'rb') as f:
+        # В переменную кладем файл, который преобразуется в файл библиотеки Discord!
+        picture = discord.File(f)
+    # Можем передавать файл как параметр!
+    await ctx.send(file=picture)
 
 bot.run(settings["TOKEN"])
