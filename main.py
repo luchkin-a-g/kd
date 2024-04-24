@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 
 import random
+import os
 
 from settings import settings
 from bot_logic import *
@@ -32,8 +33,8 @@ async def gen_pass(ctx, count_chars = 10):
 
 @bot.command()
 async def mem(ctx):
-    mems = ["mem1.jpg", "mem2.jpg", "mem3.jpg"]
-    with open('images/' + random.choice(mems), 'rb') as f:
+    new_mem = random.choice(os.listdir('images'))
+    with open(f'images/{new_mem}', 'rb') as f:
         # В переменную кладем файл, который преобразуется в файл библиотеки Discord!
         picture = discord.File(f)
     # Можем передавать файл как параметр!
